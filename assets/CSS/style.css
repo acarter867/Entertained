@@ -1,0 +1,48 @@
+*{
+    margin: 5px;
+}
+
+.month{
+    display: flex;
+    justify-content: center;
+}
+
+.days{
+    display: flex;
+    justify-content: center;
+}
+
+#calendar-table{
+    border: 2px solid black;
+}
+
+td{
+    text-align: center;
+}
+
+td:hover{
+    background-color: rgb(192, 192, 192);
+    cursor: pointer;
+}
+
+.todays-date{
+    background-color: rgb(148, 205, 255);
+}
+
+th{
+    font-size: 2vw;
+    border-right: 1px solid black;
+    padding: 10px;
+}
+
+.no-border{
+    border: none;
+}
+
+th:hover{
+    background-color: aqua;
+}
+
+.arrow:hover{
+    cursor: pointer;
+}
