@@ -20,7 +20,7 @@ td{
     text-align: center;
 }
 
-td:hover{
+.has-date:hover{
     background-color: rgb(192, 192, 192);
     cursor: pointer;
 }
@@ -32,7 +32,19 @@ td:hover{
 th{
     font-size: 2vw;
     border-right: 1px solid black;
+    border-bottom: 1px solid black;
     padding: 10px;
+    width: 1000px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 20vw;
+    height: 200px;
+}
+
+.selected{
+    background-color: blue;
 }
 
 .no-border{
