@@ -11,40 +11,56 @@ calendarTable = document.getElementById('calendar-table'),
 btnNewEvent = document.getElementById('create-event'),
 eventInput = document.getElementById('txt-new-event');
 
+
+//Currently selected calendar day
 let selectedDate = '';
-btnNewEvent.addEventListener('click', newEvent)
 
-//seatgeek api call
-let something = 'https://api.seatgeek.com/2/events?client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'
-fetch(something)
-.then(result => {
-    console.log(result);
-    return result.json();
-})
-.then(data => {
-    console.log(data);
-});
+btnNewEvent.addEventListener('click', newEvent);
 
-//bored api call
-let queryString = 'http://www.boredapi.com/api/activity/';
+//Function to call bored API
+function getBored(){
+    try{
+        let queryString = 'http://www.boredapi.com/api/activity/';
+        fetch(queryString)
+        .then(result => {
+            console.log(result);
+            return result.json();
+        })
+        .then(data => {
+            console.log(data);
+        });
+    }catch{
+    //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
+    
+    }
+}
 
-//bored api
+//function to call seatGeek API
+function getSeatGeek(){
+    try{
+        let something = 'https://api.seatgeek.com/2/events?client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'
+        fetch(something)
+        .then(result => {
+            console.log(result);
+            return result.json();
+        })
+        .then(data => {
+            console.log(data);
+        });
+    }catch{
+        //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
+    
+    }    
+}
 
-fetch(queryString)
-.then(result => {
-    console.log(result);
-    return result.json();
-})
-.then(data => {
-    console.log(data);
-});
+
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-//initialization of current month and year
+//Initialization of current month and year
 let currentMonth = 0;
 let currentYear = 0;
 
-//sets current date
+//Sets current date
 function setDate(){
     let date = new Date();
     currentMonth = date.getMonth();
@@ -53,26 +69,25 @@ function setDate(){
     generateCalendar();
 }
 
-//go back one month
+//Go back one month
 leftArrow.addEventListener('click', () => {
     generateCalendar('left');
 });
 
-//go forward one month
+//Go forward one month
 rightArrow.addEventListener('click', () =>{
     generateCalendar('right');
 });
 
-//returns number of days in month
+//Returns number of days in month
 function daysInMonth(year, month){
     return new Date(year, month, 0).getDate();
 }
 
-//returnbs day of week that a given month starts on 
+//Returns day of week that a given month starts on 
 function firstWeekday(month, year){
     const d = new Date(month + " 1, " + currentYear);
-    let day = d.getDay()
-
+    let day = d.getDay();
     return day;
 }
 
@@ -84,7 +99,6 @@ function resetCalendar(){
     }
 }
 
-
 //create calendar layout for given month
 function generateCalendar(direction){
     let today = new Date();
@@ -92,10 +106,10 @@ function generateCalendar(direction){
     let thisMonth = today.getMonth();
     let currentDate = today.getDate();
 
-    //call resetCalendar to avoid multiples of days in month
+    //Call resetCalendar to avoid multiples of days in month
     resetCalendar();
     let numRows = 0;
-    //
+    //Determine whether to go to next or previous month
     if(direction === 'left'){
         if(currentMonth == 0){
             currentMonth = 11;
@@ -111,60 +125,112 @@ function generateCalendar(direction){
             currentMonth++;
         }
     }
+    //Displays current month
     month.textContent = months[currentMonth] + " " + currentYear;
 
+    //Number of days in currently selected month
     let numDays = daysInMonth(currentYear, currentMonth + 1);
-    console.log(numDays);   
 
+    //Day of the week that the month starts on, to prevent starting every month on sunday by default
     let beginningDay = firstWeekday(months[currentMonth], currentYear);
 
+
+    /*Need to iterate (using 'i') the number of days in the month PLUS the number of blank spaces (determined by which day of the week a particular month starts on). 
+                                EX: February starts on a wednesday, so we need 3 empty spaces at the beginning of the calendar for Sunday, Monday, and Tuesday.*/
+
+    //We can iterate the total number of days in any given month using a second iterator, 'j', that starts at 1.
     for(let i = 0, j = 1; i < numDays + beginningDay; i++){
-        if(i < 0 || i % 7 == 0){
+        //If i is evenly divisible by 7, we have completed a full week, and need a new row.
+        if(i % 7 == 0){
            var newRow = document.createElement('tr');
            newRow.setAttribute('id', "row" + i)
            newRow.setAttribute('class', 'rows');
            calendarTable.appendChild(newRow);
         }
         let newCell = document.createElement('td');
+        //If i < beginningDay, we have not reached the weekday which the currently selected month has started on, and should leave a blank space.
         if(i < beginningDay){
             newCell.textContent = " ";
         }else{
             newCell.setAttribute('class', 'has-date')
             newCell.textContent = j;
             newCell.style.border = '1px solid black';
+            //Add event listener to every new cell. Will allow user to select specific day to create and view events.
             newCell.addEventListener('click', () => {
                 deselectDays();
                 newCell.classList.add('selected');
-                selectedDate = currentMonth + " " + newCell.textContent + " " + currentYear;
+                //Get all events for this specific cells date
+                selectedDate = String(currentMonth + 1).padStart(2, '0') + "/" + newCell.textContent.padStart(2, '0') + "/" + currentYear;
+                let eventsForToday = getEventsByDay(selectedDate);
+
+                /**********************************************************TODO***********************************************************************/
+                /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
+                if(eventsForToday.length == 0){
+                    console.log("No Events Scheduled for Today!")
+                }else{
+                    for(let i = 0; i < eventsForToday.length; i++){
+                        console.log("Event " + (i + 1) + ": " + eventsForToday[i].description);
+                    }
+                }
             });
-            j++;
-            if(currentYear === thisYear && j - 1 === currentDate && thisMonth === currentMonth){
-                newCell.classList.add('todays-date')
+
+            //Add 'todays-date' HTML class so current date can be highlighted
+            if(currentYear === thisYear && j === currentDate && thisMonth === currentMonth){
+                newCell.classList.add('todays-date');
             }
+            //Increment 'j' to the next day of the month.
+            j++;
         }
+        //Add the new cell to the current row
         newRow.appendChild(newCell);
     }
 }
 
-//remove 'selected' class from all calendar days each time a day is selected, so that only one may be selected at a time
+//Remove 'selected' class from all calendar days each time a day is selected, so that only one may be selected at a time
 function deselectDays(){
     let childDays = calendarTable.children;
+    //Loop through rows
     for(let i = 0; i < childDays.length; i++){
+        //Loop through each cell in the row
         for(let j = 0; j < childDays[i].children.length; j++){
             childDays[i].children[j].classList.remove('selected');
         }
     }
 }
 
-//testing for adding new events to calendar
+//Testing for adding new events to calendar
 function newEvent(date){
+    let eventsList = [];
+    //Create oject with event details. More properties can be added as needed.
     const eventObj = {
         date: selectedDate,
         time: 'TBD',
         description: eventInput.value
+    }  
+    let currentEvents = localStorage.getItem('events');
+    if(currentEvents == null){
+        let firstEvent = [eventObj]
+        localStorage.setItem('events', JSON.stringify(firstEvent));
+    }else{
+        eventsList = JSON.parse(localStorage.getItem('events'));
+        console.log(eventsList);
+        eventsList.push(eventObj);
+        localStorage.setItem('events', JSON.stringify(eventsList));
     }
+}
 
-    console.log(eventObj)
+
+// TODO: implement this function into generateCalendar where individual days are created. 
+function getEventsByDay(date){
+    let todaysEvents = [];
+    let allEvents = JSON.parse(localStorage.getItem('events'));
+    //Check newCell date in calendar for events scheduled that day
+    for(let i = 0; i < allEvents.length; i++){
+        if(allEvents[i].date === date){
+            todaysEvents.push(allEvents[i]);
+        }
+    }
+    return todaysEvents;
 }
 
 setDate();
