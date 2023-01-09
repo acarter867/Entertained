@@ -53,7 +53,6 @@ function getSeatGeek(){
     }    
 }
 
-
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 //Initialization of current month and year
@@ -108,7 +107,6 @@ function generateCalendar(direction){
 
     //Call resetCalendar to avoid multiples of days in month
     resetCalendar();
-    let numRows = 0;
     //Determine whether to go to next or previous month
     if(direction === 'left'){
         if(currentMonth == 0){
@@ -164,7 +162,7 @@ function generateCalendar(direction){
 
                 /**********************************************************TODO***********************************************************************/
                 /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
-                /**********************************************************Add visual indicator for days (cells) with scheduled events***********************************************************************/
+                /**********************************************************Add visual indicator for days (cells) with scheduled events (Unordered List?)***********************************************************************/
                 if(eventsForToday.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
@@ -199,7 +197,7 @@ function deselectDays(){
 }
 
 //Testing for adding new events to calendar
-function newEvent(date){
+function newEvent(){
     let eventsList = [];
     //Create oject with event details. More properties can be added as needed.
     const eventObj = {
