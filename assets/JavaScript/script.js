@@ -143,7 +143,6 @@ function generateCalendar(direction){
         //If i is evenly divisible by 7, we have completed a full week, and need a new row.
         if(i % 7 == 0){
            var newRow = document.createElement('tr');
-           newRow.setAttribute('id', "row" + i)
            newRow.setAttribute('class', 'rows');
            calendarTable.appendChild(newRow);
         }
@@ -165,6 +164,7 @@ function generateCalendar(direction){
 
                 /**********************************************************TODO***********************************************************************/
                 /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
+                /**********************************************************Add visual indicator for days (cells) with scheduled events***********************************************************************/
                 if(eventsForToday.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
@@ -217,7 +217,6 @@ function newEvent(date){
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
 }
-
 
 // TODO: implement this function into generateCalendar where individual days are created. 
 function getEventsByDay(date){
