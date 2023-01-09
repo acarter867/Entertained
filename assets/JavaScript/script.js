@@ -213,7 +213,6 @@ function newEvent(date){
         localStorage.setItem('events', JSON.stringify(firstEvent));
     }else{
         eventsList = JSON.parse(localStorage.getItem('events'));
-        console.log(eventsList);
         eventsList.push(eventObj);
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
@@ -224,6 +223,10 @@ function newEvent(date){
 function getEventsByDay(date){
     let todaysEvents = [];
     let allEvents = JSON.parse(localStorage.getItem('events'));
+    //If there's no scheduled events, return empty array    
+    if(allEvents == null){
+        return [];
+    }
     //Check newCell date in calendar for events scheduled that day
     for(let i = 0; i < allEvents.length; i++){
         if(allEvents[i].date === date){
