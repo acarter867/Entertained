@@ -1,5 +1,9 @@
-*{
-    margin: 5px;
+.container {
+
+}
+
+h1 {
+    line-height: 10px;
 }
 
 .month{
@@ -10,6 +14,7 @@
 .days{
     display: flex;
     justify-content: center;
+    overflow-x: scroll;
 }
 
 #calendar-table{
@@ -18,6 +23,7 @@
 
 td{
     text-align: center;
+    height: 100px;
 }
 
 .has-date:hover{
@@ -30,11 +36,11 @@ td{
 }
 
 th{
-    font-size: 2vw;
+    font-size: 1.5vw;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    padding: 10px;
-    width: 1000px;
+    padding: 15px;
+    min-width: 100px;
 }
 
 table {
