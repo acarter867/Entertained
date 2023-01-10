@@ -4,18 +4,57 @@
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
 
+
+//let APIKey = '22c381336de0f996a4083c7ecafd3174';
+
 const leftArrow = document.getElementById('left-arrow'),
 rightArrow = document.getElementById('right-arrow'),
 month = document.getElementById('month'),
 calendarTable = document.getElementById('calendar-table'),
 btnNewEvent = document.getElementById('create-event'),
-eventInput = document.getElementById('txt-new-event');
+eventInput = document.getElementById('txt-new-event'),
+btnCitySearch = document.getElementById('city-search'),
+txtCitySearch = document.getElementById('txt-search');
 
 
 //Currently selected calendar day
 let selectedDate = '';
 
 btnNewEvent.addEventListener('click', newEvent);
+
+function getCityCoords(city){
+    let APIKey = '22c381336de0f996a4083c7ecafd3174';
+    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
+
+    fetch(queryCity)
+    .then(result => { 
+        console.log(result.status)
+        return result.json();
+    })
+    .then(data => {
+        console.log(data)
+        try{
+            let something = 'https://api.seatgeek.com/2/events?' + 'lon=' + data[0].lon+ '&' + 'lat=' + data[0].lat +  '&client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'
+            fetch(something)
+            .then(result => {
+                console.log(result);
+                return result.json();
+            })
+            .then(data => {
+                console.log(data);
+            });
+        }catch{
+            //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
+            console.log("failed");
+        }  
+    });
+}
+
+
+btnCitySearch.addEventListener('click', () => {
+    getCityCoords(txtCitySearch.value);
+    txtCitySearch.textContent = "";
+});
 
 //Function to call bored API
 function getBored(){
@@ -36,22 +75,7 @@ function getBored(){
 }
 
 //function to call seatGeek API
-function getSeatGeek(){
-    try{
-        let something = 'https://api.seatgeek.com/2/events?client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'
-        fetch(something)
-        .then(result => {
-            console.log(result);
-            return result.json();
-        })
-        .then(data => {
-            console.log(data);
-        });
-    }catch{
-        //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
-    
-    }    
-}
+
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
