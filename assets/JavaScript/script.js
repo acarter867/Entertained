@@ -50,7 +50,6 @@ function getCityCoords(city){
     });
 }
 
-
 btnCitySearch.addEventListener('click', () => {
     getCityCoords(txtCitySearch.value);
     txtCitySearch.textContent = "";
@@ -70,7 +69,7 @@ function getBored(){
         });
     }catch{
     //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
-    
+    console.log("failed");
     }
 }
 
@@ -156,7 +155,6 @@ function generateCalendar(direction){
     //Day of the week that the month starts on, to prevent starting every month on sunday by default
     let beginningDay = firstWeekday(months[currentMonth], currentYear);
 
-
     /*Need to iterate (using 'i') the number of days in the month PLUS the number of blank spaces (determined by which day of the week a particular month starts on). 
                                 EX: February starts on a wednesday, so we need 3 empty spaces at the beginning of the calendar for Sunday, Monday, and Tuesday.*/
 
@@ -176,6 +174,18 @@ function generateCalendar(direction){
             newCell.setAttribute('class', 'has-date')
             newCell.textContent = j;
             newCell.style.border = '1px solid black';
+            let currentCellDate = String(currentMonth + 1).padStart(2, '0') + "/" + newCell.textContent.padStart(2, '0') + "/" + currentYear;
+            let currCellEvents = getEventsByDay(currentCellDate);
+            if(currCellEvents.length != 0){
+                let uList = document.createElement('ul');
+                let lItem = document.createElement('li');
+                uList.appendChild(lItem);
+
+                lItem.textContent = j;
+
+                newCell.textContent = '';
+                newCell.appendChild(uList)
+            }
             //Add event listener to every new cell. Will allow user to select specific day to create and view events.
             newCell.addEventListener('click', () => {
                 deselectDays();
@@ -204,6 +214,7 @@ function generateCalendar(direction){
             j++;
         }
         //Add the new cell to the current row
+        
         newRow.appendChild(newCell);
     }
 }
@@ -238,6 +249,8 @@ function newEvent(){
         eventsList.push(eventObj);
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
+
+    generateCalendar();
 }
 
 // TODO: implement this function into generateCalendar where individual days are created. 
