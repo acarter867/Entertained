@@ -4,7 +4,7 @@
     <title>Title</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./assets/CSS/style.css">
   </head>
   <body>
@@ -15,7 +15,8 @@
             <h1 class="arrow" id="right-arrow">&gt</h1>
         </div>
         <div class="days">
-            <table id="calendar-table">
+            <table id="calendar-table" class="centered">
+              <thead>
                 <tr id="weekdays">
                     <th>Sunday</th>
                     <th>Monday</th>
@@ -25,6 +26,8 @@
                     <th>Friday</th>
                     <th class="no-border">Saturday</th>
                 </tr>
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
         <div class="new-event">
@@ -32,6 +35,7 @@
           <button id="create-event">Create New Event</button>
         </div>
       </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
    <script src="./assets/JavaScript/script.js"></script>
   </body>
 </html>
