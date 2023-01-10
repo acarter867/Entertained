@@ -178,7 +178,20 @@ function generateCalendar(direction){
             let currCellEvents = getEventsByDay(currentCellDate);
             console.log(currCellEvents.length)
             if(currCellEvents.length !== 0){
-                newCell.textContent = '• ' + j;
+                let newDiv = document.createElement('div');
+                let redDot = document.createElement('span'); 
+                let dayNum = document.createElement('span');
+
+                newDiv.appendChild(redDot);
+                newDiv.appendChild(dayNum);
+
+                redDot.style.color = 'red';
+
+                redDot.textContent = '• ';
+                dayNum.textContent = j;
+                
+                newCell.textContent = '';
+                newCell.appendChild(newDiv)
             }
             //Add event listener to every new cell. Will allow user to select specific day to create and view events.
             newCell.addEventListener('click', () => {
@@ -190,7 +203,6 @@ function generateCalendar(direction){
 
                 /**********************************************************TODO***********************************************************************/
                 /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
-                /**********************************************************Add visual indicator for days (cells) with scheduled events (Unordered List?)***********************************************************************/
                 if(eventsForToday.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
@@ -207,8 +219,7 @@ function generateCalendar(direction){
             //Increment 'j' to the next day of the month.
             j++;
         }
-        //Add the new cell to the current row
-        
+        //Add the new cell to the current row        
         newRow.appendChild(newCell);
     }
 }

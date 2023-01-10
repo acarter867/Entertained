@@ -45,10 +45,6 @@ table {
     height: 200px;
 }
 
-ul{
-    list-style: square !important;
-}
-
 .selected{
     background-color: blue;
 }
