@@ -249,7 +249,6 @@ function newEvent(){
         eventsList.push(eventObj);
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
-
     generateCalendar();
 }
 
