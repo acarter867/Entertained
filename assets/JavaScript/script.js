@@ -176,15 +176,9 @@ function generateCalendar(direction){
             newCell.style.border = '1px solid black';
             let currentCellDate = String(currentMonth + 1).padStart(2, '0') + "/" + newCell.textContent.padStart(2, '0') + "/" + currentYear;
             let currCellEvents = getEventsByDay(currentCellDate);
-            if(currCellEvents.length != 0){
-                let uList = document.createElement('ul');
-                let lItem = document.createElement('li');
-                uList.appendChild(lItem);
-
-                lItem.textContent = j;
-
-                newCell.textContent = '';
-                newCell.appendChild(uList)
+            console.log(currCellEvents.length)
+            if(currCellEvents.length !== 0){
+                newCell.textContent = '• ' + j;
             }
             //Add event listener to every new cell. Will allow user to select specific day to create and view events.
             newCell.addEventListener('click', () => {
