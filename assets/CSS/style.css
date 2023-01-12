@@ -23,7 +23,6 @@ h1 {
 .days{
     display: flex;
     justify-content: center;
-    overflow-x: scroll;
 }
 
 .card{
@@ -40,7 +39,8 @@ h1 {
 
 td{
     text-align: center;
-    height: 100px;
+    height: 7vw;
+    max-height: 90px;
 }
 
 .has-date:hover{
@@ -57,7 +57,8 @@ th{
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     padding: 15px;
-    min-width: 100px;
+    min-width: 8vw;
+    max-width: 90px;
 }
 
 table {
@@ -80,4 +81,31 @@ th:hover{
 
 .arrow:hover{
     cursor: pointer;
+}
+
+.events {
+    text-align: center;
+    transform: translateX(65%);
+}
+
+.calendar {
+    transform: translateX(-7%);
+}
+
+/* Media queries for screen responsiveness */
+
+@media screen and (max-width: 600px) {
+    .events {
+        transform: translateX(15%);
+    }
+}
+
+@media screen and (min-width: 2000px){
+    .calendar {
+        transform: translateX(-30%);
+    }
+
+    .events {
+        transform: translateX(100%);
+    }
 }
