@@ -338,21 +338,40 @@ setDate();
 
 //Function to append event cards to event list
 function getEventCards(data){
-        let eventCard = document.createElement("div");
-        let eventTitle = document.createElement("div");
-        let eventType = document.createElement("div");
-        let eventTime = document.createElement("div");
-        let eventVenue = document.createElement("div");
-        console.log(data)
-        eventTitle.textContent = data.title;
-        eventType.textContent = data.type;
-        eventTime.textContent = data.datetime_local;
-        eventVenue.textContent = data.venue.name;
-        
-        eventCard.appendChild(eventTitle);
-        eventCard.appendChild(eventType);
-        eventCard.appendChild(eventTime);
-        eventCard.appendChild(eventVenue);
-        eventCard.classList.add("card");
-        eventList.appendChild(eventCard);
+    let modalEventTitle = document.getElementById('event-title'),
+    modalEventType = document.getElementById('type'),
+    modalEventTime = document.getElementById('time'),
+    modalEventVenue = document.getElementById('venue'),
+    btnAddToCalendar = document.getElementById('add-event-to-calendar'),
+    btnViewSite = document.getElementById('btn-url');
+
+    let eventCard = document.createElement("div");
+    let eventTitle = document.createElement("div");
+    let eventType = document.createElement("div");
+    let eventTime = document.createElement("div");
+    let eventVenue = document.createElement("div");
+    let eventURL = data.url;
+
+    eventTitle.textContent = data.title;
+    eventType.textContent = data.type;
+    eventTime.textContent = data.datetime_local;
+    eventVenue.textContent = data.venue.name;
+    
+    eventCard.appendChild(eventTitle);
+    eventCard.appendChild(eventType);
+    eventCard.appendChild(eventTime);
+    eventCard.appendChild(eventVenue);
+
+   
+    eventCard.classList.add("card", "modal-trigger");
+    eventCard.addEventListener('click', () => {
+        btnViewSite.setAttribute("href", eventURL);
+        modalEventTitle.textContent = "Event Name: " + eventTitle.textContent;
+        modalEventType.textContent = "Event Type: " + eventType.textContent;
+        modalEventTime.textContent = "Time: " + eventTime.textContent;
+        modalEventVenue.textContent = "Venue: " + eventVenue.textContent;
+    });
+    eventCard.setAttribute("data-target", "modal4");
+    eventCard.style.cursor = "pointer"
+    eventList.appendChild(eventCard);
 };
