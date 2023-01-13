@@ -16,6 +16,7 @@ eventInput = document.getElementById('txt-new-event'),
 btnCitySearch = document.getElementById('city-search'),
 txtCitySearch = document.getElementById('txt-search'),
 btnSubmitEvent = document.getElementById('btn-new-event');
+eventList = document.getElementById('event-list');
 
 
 //Prep modal when page is open
@@ -330,3 +331,56 @@ function getEventsByDay(date){
 }
 
 setDate();
+
+
+// Function to append event list when searching by city
+function geteventList(){
+    let queryEvent = 'https://api.seatgeek.com/2/events?&client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'  
+    fetch(queryEvent)
+    .then((response) => response.json())
+    .then((data) => {
+        for(let i = 0; i < data.events.length; i++){
+            getEventCards(data[i])
+            //console.log(data.events[i])
+        }
+       
+
+    
+    })
+      // {
+    //     let eventTitle = response.json(events.title)
+    //     console.log(eventTitle)
+    //     eventList.appendChild("div")
+    // }
+
+}
+
+function getEventCards(data){
+        let eventCard = document.createElement("div");
+        let eventTitle = document.createElement("div");
+        let eventType = document.createElement("div");
+        let eventTime = document.createElement("div");
+        let eventVenue = document.createElement("div");
+        console.log(data)
+        eventTitle.textContent = data.title;
+        eventType.textContent = data.type;
+        eventTime.textContent = data.datetime_local;
+        eventVenue.textContent = data.venue.name;
+        
+        eventCard.appendChild(eventTitle);
+        eventCard.appendChild(eventType);
+        eventCard.appendChild(eventTime);
+        eventCard.appendChild(eventVenue);
+
+        eventList.appendChild(eventCard)
+        
+
+}
+
+geteventList()
+
+// fetch(something)
+// .then(result => {
+//     console.log(result);
+//     return result.json();
+// })
