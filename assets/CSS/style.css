@@ -1,5 +1,18 @@
-*{
-    margin: 5px;
+h1 {
+    line-height: 10px;
+}
+
+.fixed-action-button{
+    position: absolute;
+    right: 5px;
+    top: 1vw;
+    align-content: center;
+}
+
+.modal-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .month{
@@ -10,6 +23,15 @@
 .days{
     display: flex;
     justify-content: center;
+    overflow-x: scroll;
+}
+
+.card{
+    padding: 10px;
+}
+.modal-title{
+    margin: 0%;
+    font-size: 5vw;
 }
 
 #calendar-table{
@@ -18,9 +40,10 @@
 
 td{
     text-align: center;
+    height: 100px;
 }
 
-td:hover{
+.has-date:hover{
     background-color: rgb(192, 192, 192);
     cursor: pointer;
 }
@@ -30,9 +53,21 @@ td:hover{
 }
 
 th{
-    font-size: 2vw;
+    font-size: 3vw;
     border-right: 1px solid black;
-    padding: 10px;
+    border-bottom: 1px solid black;
+    padding: 15px;
+    min-width: 100px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 20vw;
+    height: 200px;
+}
+
+.selected{
+    background-color: blue;
 }
 
 .no-border{

@@ -1,33 +1,128 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>Entertained</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./assets/CSS/style.css">
   </head>
   <body>
-      <div class="calendar">
+    <header>
+      <div class="nav-wrapper">
+        <nav>
+          <ul id="nav-mobile" class="right">
+            <li>trythis</li>
+            <li>andthis</li>
+            <li>alsothis</li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+    <div class="row">
+      <div class="calendar col l9">
         <div class="month">
             <h1 class="arrow" id="left-arrow">&lt</h1>
             <h1 id="month">month</h1>
             <h1 class="arrow" id="right-arrow">&gt</h1>
         </div>
+        
         <div class="days">
-            <table id="calendar-table">
+            <table id="calendar-table" class="centered">
+              <thead>
                 <tr id="weekdays">
-                    <th>Sunday</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th class="no-border">Saturday</th>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th class="no-border">Sat</th>
                 </tr>
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
+        <!--Event cards-->
+        <div class="modal" id="modal1">
+          <div class="green lighten-3" id="event-modal">
+            <div class="modal-header">
+            <p class="modal-title centerred">Todays Events 
+              <div class="fixed-action-button">
+                <a class="btn-floating btn-small red">
+                  <i class="btn-add-event medium material-icons">+</i>
+              </a>
+            </div></p>
+          </div>
+          </div>
+
+          <div class="modal-footer grey card-modal-footer">
+            <button class="btn modal-close waves-effect waves-green">Looks Good!</button>
+          </div>
+        </div>
+
+
+        <div class="new-event">
+                  <!--Create New Event modal-->
+          <button data-target="modal2" class="btn modal-trigger">Create New Event</button>
+          <div id="modal2" class="modal">
+            <div class="modal-content">
+              <h4>New Event!</h4>
+              <div class="event-info">
+                <div class="event-name-input">
+                  <p>Event Name:<input id="txt-event-name" type="text" placeholder="Enter Event Name!"></p>
+                </div>
+                <div class="event-description">
+                  <p>Description:<input id="txt-event-description" type="text" placeholder="Enter Event Description!"></p>                 
+                </div>
+                <div class="event-location">
+                  <p>Location:<input id="txt-event-location" type="text" placeholder="Enter Event location!"></p>                 
+                </div>
+                <div class="event-start-time">
+                  <p>Start Time:<input id="txt-start-time" type="text" placeholder="Enter Event Start Time!"></p>                  
+                </div>
+                <div class="event-end-time">
+                  <p>End Time:<input id="txt-end-time" type="text" placeholder="Enter Event End Time!"></p>                  
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="btn-new-event" class="btn modal-close waves-effect waves-green btn-flat centered">Create Event!</button>
+            </div>
+          </div>
+
+
+        </div>
       </div>
+      <div class="events col l3">
+        <div class="random-event">
+          Stuff
+        </div>
+        <!--Experimental modals-->
+        <button data-target="modal3" class="btn modal-trigger">modal</button>
+        <div id="modal3" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">yes</a>
+          </div>
+        </div>
+
+
+
+        <div class="seat-geek">
+         <input type="text" placeholder="Search For a City" id="txt-search">
+         <button class="btn-city-search" id="city-search">Search</button>
+         <div id="event-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
    <script src="./assets/JavaScript/script.js"></script>
   </body>
 </html>
