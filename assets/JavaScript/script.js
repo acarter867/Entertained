@@ -356,7 +356,7 @@ function getEventCards(data){
     eventType.textContent = data.type;
     eventTime.textContent = data.datetime_local;
     eventVenue.textContent = data.venue.name;
-    
+
     eventCard.appendChild(eventTitle);
     eventCard.appendChild(eventType);
     eventCard.appendChild(eventTime);
@@ -370,8 +370,35 @@ function getEventCards(data){
         modalEventType.textContent = "Event Type: " + eventType.textContent;
         modalEventTime.textContent = "Time: " + eventTime.textContent;
         modalEventVenue.textContent = "Venue: " + eventVenue.textContent;
+        
+        btnAddToCalendar.addEventListener('click', () => {
+            selectedDate = formatDateTime(eventTime.textContent);
+            let txtEventName = document.getElementById('txt-event-name'),
+            txtEventDescription = document.getElementById('txt-event-description'),
+            txtStartTime = document.getElementById('txt-start-time'),
+            txtEndTime = document.getElementById('txt-end-time');
+            txtLocation = document.getElementById('txt-event-location');
+
+            txtEventName.value = eventTitle.textContent;
+            txtEventDescription.value = eventType.textContent;
+            txtStartTime.value = eventTime.textContent;
+            txtLocation.value = eventVenue.textContent;
+        });
     });
+
+    
     eventCard.setAttribute("data-target", "modal4");
     eventCard.style.cursor = "pointer"
     eventList.appendChild(eventCard);
 };
+
+function formatDateTime(dateTime){
+    let splitDate = dateTime.split('-');
+    let dd = splitDate[2].substring(0,2);
+
+    let yyyy = splitDate[0];
+    let mm = splitDate[1];
+
+    let formattedDate = mm + "/" + dd + "/" + yyyy;
+    return formattedDate;
+}
