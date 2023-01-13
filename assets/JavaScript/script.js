@@ -59,7 +59,9 @@ function getCityCoords(city){
                 return result.json();
             })
             .then(data => {
-                console.log(data);
+                for(let i = 0; i < data.events.length; i++){
+                    getEventCards(data.events[i])
+                };
             });
         }catch{
             //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
@@ -69,9 +71,11 @@ function getCityCoords(city){
 }
 
 btnCitySearch.addEventListener('click', () => {
+    removeChildrenByClassName("card");
     getCityCoords(txtCitySearch.value);
     txtCitySearch.textContent = "";
 });
+
 
 //Function to call bored API
 function getBored(){
@@ -332,29 +336,7 @@ function getEventsByDay(date){
 
 setDate();
 
-
-// Function to append event list when searching by city
-function geteventList(){
-    let queryEvent = 'https://api.seatgeek.com/2/events?&client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'  
-    fetch(queryEvent)
-    .then((response) => response.json())
-    .then((data) => {
-        for(let i = 0; i < data.events.length; i++){
-            getEventCards(data[i])
-            //console.log(data.events[i])
-        }
-       
-
-    
-    })
-      // {
-    //     let eventTitle = response.json(events.title)
-    //     console.log(eventTitle)
-    //     eventList.appendChild("div")
-    // }
-
-}
-
+//Function to append event cards to event list
 function getEventCards(data){
         let eventCard = document.createElement("div");
         let eventTitle = document.createElement("div");
@@ -371,16 +353,6 @@ function getEventCards(data){
         eventCard.appendChild(eventType);
         eventCard.appendChild(eventTime);
         eventCard.appendChild(eventVenue);
-
-        eventList.appendChild(eventCard)
-        
-
-}
-
-geteventList()
-
-// fetch(something)
-// .then(result => {
-//     console.log(result);
-//     return result.json();
-// })
+        eventCard.classList.add("card");
+        eventList.appendChild(eventCard);
+};
