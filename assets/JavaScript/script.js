@@ -82,7 +82,7 @@ btnCitySearch.addEventListener('click', () => {
 //Function to call bored API
 function getBored(){
     try{
-        let queryString = 'http://www.boredapi.com/api/activity/';
+        let queryString = 'https://www.boredapi.com/api/activity/';
         fetch(queryString)
         .then(result => {
             console.log(result);
