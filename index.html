@@ -52,8 +52,10 @@
             <p class="modal-title centerred">Todays Events 
               <div class="fixed-action-button">
                 <a class="btn-floating btn-small red">
-                  <i class="btn-add-event medium material-icons">+</i>
+                  <i data-target="modal2" class="modal-trigger btn-add-event medium material-icons">+</i>
               </a>
+              <p>OR...<button data-target="modal2" id="random-activity" class="btn modal-trigger">Generate Random Activity</button></p>
+              
             </div></p>
           </div>
           </div>
@@ -66,7 +68,6 @@
 
         <div class="new-event">
                   <!--Create New Event modal-->
-          <button data-target="modal2" class="btn modal-trigger">Create New Event</button>
           <div id="modal2" class="modal">
             <div class="modal-content">
               <h4>New Event!</h4>
@@ -97,18 +98,18 @@
         </div>
       </div>
       <div class="events col l3">
-        <div class="random-event">
-          Stuff
-        </div>
         <!--Experimental modals-->
-        <button data-target="modal3" class="btn modal-trigger">modal</button>
-        <div id="modal3" class="modal">
+
+        <div id="modal4" class="modal">
           <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">yes</a>
+            <p id="event-title">event title here</p>
+            <p id="type">type goes here</p>
+            <p id="time">time goes here</p>
+            <p id="venue">Venue goes here</p>
+            <button data-target="modal2" id="add-event-to-calendar" class="modal-trigger">Add to Calendar</button>
+            <a id="btn-url">
+              <button id="view-event-online">View on Seatgeek</button>
+            </a>
           </div>
         </div>
 
