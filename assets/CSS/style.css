@@ -1,5 +1,32 @@
+body{
+    background-color: rgb(216, 238, 243);
+    font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+nav {
+    background-color:  rgb(44, 47, 47);
+    padding-right: 40px;
+}
+
 h1 {
     line-height: 10px;
+    color:  rgb(44, 47, 47);
+    padding-bottom: 20px;
+}
+
+.arrow{
+    padding: 0px 15px 0px 15px;
+    color:rgb(44, 47, 47);
+}
+
+.arrow:hover {
+    transform: translate3d(0, -2px, 0);
+    color:rgb(30, 170, 163)
+}
+
+.modal-header{
+    background-color: whitesmoke;
+    color: rgb(44, 47, 47);
 }
 
 .fixed-action-button{
@@ -24,6 +51,7 @@ h1 {
     display: flex;
     justify-content: center;
     overflow-x: scroll;
+    color:  rgb(44, 47, 47);
 }
 
 .card{
@@ -35,7 +63,8 @@ h1 {
 }
 
 #calendar-table{
-    border: 2px solid black;
+    border: 2px solid rgb(44, 47, 47);
+    background-color:whitesmoke;
 }
 
 td{
@@ -49,7 +78,7 @@ td{
 }
 
 .todays-date{
-    background-color: rgb(148, 205, 255);
+    background-color: rgb(240, 216, 98);
 }
 
 th{
@@ -67,17 +96,27 @@ table {
 }
 
 .selected{
-    background-color: blue;
+    background-color: rgb(30, 170, 163);
 }
 
 .no-border{
     border: none;
 }
 
-th:hover{
-    background-color: aqua;
-}
-
 .arrow:hover{
     cursor: pointer;
+}
+
+.search-title {
+    color:  rgb(44, 47, 47);
+    font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button {
+    background-color: rgb(30, 170, 163);
+    color: white;
+    border-radius: 2px;
+    padding: 5px 10px 5px 10px;
+    border: 0;
+    box-shadow: 1px 1px 2px rgb(150, 149, 149);
 }
