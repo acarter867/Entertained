@@ -189,7 +189,7 @@ function generateCalendar(direction){
 
                 redDot.textContent = '• ';
                 dayNum.textContent = j;
-                
+
                 newCell.textContent = '';
                 newCell.appendChild(newDiv)
             }
@@ -254,6 +254,7 @@ function newEvent(){
         eventsList.push(eventObj);
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
+    //Regenerate calendar for current month and year to include new event
     generateCalendar();
 }
 
