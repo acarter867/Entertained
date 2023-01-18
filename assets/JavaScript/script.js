@@ -1,14 +1,17 @@
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
+// API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
+// API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
+// API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
+// API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
+
 
 //Open weather map api '22c381336de0f996a4083c7ecafd3174';
-
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const leftArrow = document.getElementById('left-arrow'),
 rightArrow = document.getElementById('right-arrow'),
 month = document.getElementById('month'),
 calendarTable = document.getElementById('calendar-table'),
-btnNewEvent = document.getElementById('create-event'),
+btnNewEvent = document.getElementById('btn-create-new-event'),
 eventInput = document.getElementById('txt-new-event'),
 btnCitySearch = document.getElementById('city-search'),
 txtCitySearch = document.getElementById('txt-search'),
@@ -21,37 +24,39 @@ txtStartTime = document.getElementById('txt-start-time'),
 txtEndTime = document.getElementById('txt-end-time');
 txtLocation = document.getElementById('txt-event-location');
 
-//Currently selected calendar day
-let selectedDate = '';
+function resetEventInput(){
+    txtEventName.value = "";
+    txtEventDescription.value = "";
+    txtStartTime.value = "";
+    txtEndTime.value = "";
+    txtLocation.value = "";
+}
 
-//Prep modal when page is open
+
+//Prep modals when page is open
 document.addEventListener('DOMContentLoaded', function(){
     var modalEls = document.querySelectorAll('.modal');
     var instances = M.Modal.init(modalEls);
 
-    //Force name field as required
     btnSubmitEvent.addEventListener('click', () => {
         if(document.getElementById('txt-event-name').value == ""){
             btnSubmitEvent.classList.remove('modal-close')
             console.log("Error, name field is empty")
         }else{
-            //If name field is not empty, add new event to calendar
-            btnSubmitEvent.classList.add('modal-close');            
+            btnSubmitEvent.classList.add('modal-close');
             newEvent();
-            let currentCellEvents = getEventsByDay(selectedDate);
-            generateDailyEvents(currentCellEvents);
         }
     })
 })
 
+//Currently selected calendar day
+let selectedDate = '';
 
-
-//btnNewEvent.addEventListener('click', newEvent);
+btnNewEvent.addEventListener('click', resetEventInput);
 function getCityCoords(city){
     let APIKey = '22c381336de0f996a4083c7ecafd3174';
     let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
 
-    //Query city for coordinates from OpenWeatherMap
     fetch(queryCity)
     .then(result => { 
         console.log(result.status)
@@ -60,26 +65,24 @@ function getCityCoords(city){
     .then(data => {
         console.log(data)
         try{
-            //Use data from OpenWeatherMap response to pass longitude and latitude data to SeatGeek API
             let something = 'https://api.seatgeek.com/2/events?' + 'lon=' + data[0].lon+ '&' + 'lat=' + data[0].lat +  '&client_id=MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM'
             fetch(something)
             .then(result => {
-                console.log(result.status);
+                console.log(result);
                 return result.json();
             })
             .then(data => {
-                //Create event card for each event in search result
                 for(let i = 0; i < data.events.length; i++){
                     getEventCards(data.events[i])
                 };
             });
         }catch{
+            //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
             console.log("failed");
         }  
     });
 }
 
-//Remove events from previously searched cities to avoid clutter and confusion for the user
 btnCitySearch.addEventListener('click', () => {
     removeChildrenByClassName("card");
     getCityCoords(txtCitySearch.value);
@@ -95,11 +98,10 @@ function getBored(){
         let queryString = 'https://www.boredapi.com/api/activity/';
         fetch(queryString)
         .then(result => {
-            console.log(result.status);
+            console.log(result);
             return result.json();
         })
         .then(data => {
-            //Auto-populate event input fields
             let txtEventName = document.getElementById('txt-event-name'),
             txtEventDescription = document.getElementById('txt-event-description');
             txtEventName.value = "Activity: " + data.activity;
@@ -114,13 +116,12 @@ function getBored(){
     }
 }
 
-//Generate random activity on user click
 btnGenerateRandom.addEventListener('click', () => {
     getBored();
 });
 
 
-
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 //Initialization of current month and year
 let currentMonth = 0;
@@ -245,14 +246,17 @@ function generateCalendar(direction){
                 newCell.classList.add('modal-trigger');
                 newCell.setAttribute('data-target', 'modal1');
                 //Get all events for this specific cells date
-                selectedDate = currentCellDate;
+                selectedDate = String(currentMonth + 1).padStart(2, '0') + "/" + String(j - 1).padStart(2, '0') + "/" + currentYear;
 
                 /**********************************************************TODO***********************************************************************/
                 /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
                 if(currCellEvents.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
-                    generateDailyEvents(currCellEvents);
+                    for(let i = 0; i < currCellEvents.length; i++){
+                        let eventModal = document.getElementById('event-modal');
+                        eventModal.appendChild(getEventCard(currCellEvents[i]));
+                    }
                 }
             });
 
@@ -268,13 +272,6 @@ function generateCalendar(direction){
     }
 }
 
-function generateDailyEvents(currCellEvents){
-    for(let i = 0; i < currCellEvents.length; i++){
-        let eventModal = document.getElementById('event-modal');
-        eventModal.appendChild(getEventCard(currCellEvents[i]));
-    }
-}
-
 //Create & style event card for each daily event
 function getEventCard(event){
     let card = document.createElement('div');    
@@ -283,14 +280,13 @@ function getEventCard(event){
     eventDate = document.createElement('p'),
     eventLocation = document.createElement('p'),
     eventTime = document.createElement('p');
-    //Set text content for daily event cards
+
     eventName.textContent = event.name;
     eventDescription.textContent = event.description;
     eventDate.textContent = event.date;
     eventLocation.textContent = event.location;
     eventTime.textContent = event.startTime + "-" + event.endTime;
 
-    //Append daily event card elements to card 
     card.appendChild(eventName);
     card.appendChild(eventDescription);
     card.appendChild(eventDate);
@@ -328,8 +324,6 @@ function newEvent(){
 
     }  
     let currentEvents = localStorage.getItem('events');
-
-    //If there's nothing in currentEvents, we need an initial entry
     if(currentEvents == null){
         let firstEvent = [eventObj]
         localStorage.setItem('events', JSON.stringify(firstEvent));
@@ -338,15 +332,6 @@ function newEvent(){
         eventsList.push(eventObj);
         localStorage.setItem('events', JSON.stringify(eventsList));
     }
-
-    //Reset event input values
-    txtEventName.value = '';
-    txtEventDescription.value = '';
-    txtStartTime.value = '';
-    txtEndTime.value = '';
-    txtLocation.value = '';
-
-    //Reset calendar to update status icon (red dot)
     generateCalendar();
 }
 
@@ -369,9 +354,8 @@ function getEventsByDay(date){
 
 
 
-//Create and append event cards to event list
+//Function to append event cards to event list
 function getEventCards(data){
-    //
     let modalEventTitle = document.getElementById('event-title'),
     modalEventType = document.getElementById('type'),
     modalEventTime = document.getElementById('time'),
@@ -379,7 +363,6 @@ function getEventCards(data){
     btnAddToCalendar = document.getElementById('add-event-to-calendar'),
     btnViewSite = document.getElementById('btn-url');
 
-    //Create card elements for display
     let eventCard = document.createElement("div");
     let eventTitle = document.createElement("div");
     let eventType = document.createElement("div");
@@ -387,13 +370,11 @@ function getEventCards(data){
     let eventVenue = document.createElement("div");
     let eventURL = data.url;
 
-    //SeatGeek event modal fields
     eventTitle.textContent = data.title;
     eventType.textContent = data.type;
     eventTime.textContent = data.datetime_local;
     eventVenue.textContent = data.venue.name;
 
-    //Append elements to card for display
     eventCard.appendChild(eventTitle);
     eventCard.appendChild(eventType);
     eventCard.appendChild(eventTime);
@@ -408,16 +389,9 @@ function getEventCards(data){
         modalEventTime.textContent = "Time: " + eventTime.textContent;
         modalEventVenue.textContent = "Venue: " + eventVenue.textContent;
         
-        //Event listener to auto-populate event entry
         btnAddToCalendar.addEventListener('click', () => {
-            //Add event info per-modal
             selectedDate = formatDateTime(eventTime.textContent);
-            let txtEventName = document.getElementById('txt-event-name'),
-            txtEventDescription = document.getElementById('txt-event-description'),
-            txtStartTime = document.getElementById('txt-start-time'),
-            txtLocation = document.getElementById('txt-event-location');
 
-            //Set text values for elements
             txtEventName.value = eventTitle.textContent;
             txtEventDescription.value = eventType.textContent;
             txtStartTime.value = eventTime.textContent;
@@ -425,15 +399,12 @@ function getEventCards(data){
         });
     });
 
-    //Set card to open modal to display selected event
+    
     eventCard.setAttribute("data-target", "modal4");
-    eventCard.style.cursor = "pointer";
-
-    //Append children to event list div
+    eventCard.style.cursor = "pointer"
     eventList.appendChild(eventCard);
 };
 
-//Separate time from date in SeatGeek API response to aid in auto-population ******************* SEATGEEK FORMAT EX: 2023-01-18T20:30:00 *************************
 function formatDateTime(dateTime){
     let splitDate = dateTime.split('-');
     let dd = splitDate[2].substring(0,2);
@@ -445,5 +416,4 @@ function formatDateTime(dateTime){
     return formattedDate;
 }
 
-/**Only non-nested function call**/
 setDate();
