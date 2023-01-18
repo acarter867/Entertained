@@ -2,6 +2,19 @@ h1 {
     line-height: 10px;
 }
 
+.fixed-action-button{
+    position: absolute;
+    right: 5px;
+    top: 1vw;
+    align-content: center;
+}
+
+.modal-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .month{
     display: flex;
     justify-content: center;
@@ -11,6 +24,14 @@ h1 {
     display: flex;
     justify-content: center;
     overflow-x: scroll;
+}
+
+.card{
+    padding: 10px;
+}
+.modal-title{
+    margin: 0%;
+    font-size: 5vw;
 }
 
 #calendar-table{
@@ -32,7 +53,7 @@ td{
 }
 
 th{
-    font-size: 1.5vw;
+    font-size: 3vw;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     padding: 15px;

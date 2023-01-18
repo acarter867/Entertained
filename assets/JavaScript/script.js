@@ -5,7 +5,7 @@
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
 
 
-//let APIKey = '22c381336de0f996a4083c7ecafd3174';
+//Open weather map api '22c381336de0f996a4083c7ecafd3174';
 
 const leftArrow = document.getElementById('left-arrow'),
 rightArrow = document.getElementById('right-arrow'),
@@ -14,14 +14,32 @@ calendarTable = document.getElementById('calendar-table'),
 btnNewEvent = document.getElementById('create-event'),
 eventInput = document.getElementById('txt-new-event'),
 btnCitySearch = document.getElementById('city-search'),
-txtCitySearch = document.getElementById('txt-search');
+txtCitySearch = document.getElementById('txt-search'),
+btnSubmitEvent = document.getElementById('btn-new-event');
+eventList = document.getElementById('event-list'),
+btnGenerateRandom = document.getElementById('random-activity');
 
+
+//Prep modal when page is open
+document.addEventListener('DOMContentLoaded', function(){
+    var modalEls = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(modalEls);
+
+    btnSubmitEvent.addEventListener('click', () => {
+        if(document.getElementById('txt-event-name').value == ""){
+            btnSubmitEvent.classList.remove('modal-close')
+            console.log("Error, name field is empty")
+        }else{
+            btnSubmitEvent.classList.add('modal-close');
+            newEvent();
+        }
+    })
+})
 
 //Currently selected calendar day
 let selectedDate = '';
 
-btnNewEvent.addEventListener('click', newEvent);
-
+//btnNewEvent.addEventListener('click', newEvent);
 function getCityCoords(city){
     let APIKey = '22c381336de0f996a4083c7ecafd3174';
     let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
@@ -41,7 +59,9 @@ function getCityCoords(city){
                 return result.json();
             })
             .then(data => {
-                console.log(data);
+                for(let i = 0; i < data.events.length; i++){
+                    getEventCards(data.events[i])
+                };
             });
         }catch{
             //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
@@ -51,21 +71,31 @@ function getCityCoords(city){
 }
 
 btnCitySearch.addEventListener('click', () => {
+    removeChildrenByClassName("card");
     getCityCoords(txtCitySearch.value);
     txtCitySearch.textContent = "";
 });
 
+
+
+
 //Function to call bored API
 function getBored(){
     try{
-        let queryString = 'http://www.boredapi.com/api/activity/';
+        let queryString = 'https://www.boredapi.com/api/activity/';
         fetch(queryString)
         .then(result => {
             console.log(result);
             return result.json();
         })
         .then(data => {
-            console.log(data);
+            let txtEventName = document.getElementById('txt-event-name'),
+            txtEventDescription = document.getElementById('txt-event-description');
+            txtEventName.value = "Activity: " + data.activity;
+            txtEventDescription.value = "Type: " + data.type;
+            //data.avtivity
+            //data.type
+            
         });
     }catch{
     //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
@@ -73,7 +103,9 @@ function getBored(){
     }
 }
 
-//function to call seatGeek API
+btnGenerateRandom.addEventListener('click', () => {
+    getBored();
+});
 
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -113,9 +145,9 @@ function firstWeekday(month, year){
     return day;
 }
 
-//Function to wipe out all calendar days. Needed to prevent repeating days popping up every time user moves to a different month
-function resetCalendar(){
-    const toDelete = document.getElementsByClassName('rows');
+//Function to avoid repeat printing of childElements
+function removeChildrenByClassName(className){
+    const toDelete = document.getElementsByClassName(className);
     while(toDelete.length > 0){
         toDelete[0].parentNode.removeChild(toDelete[0])
     }
@@ -128,8 +160,8 @@ function generateCalendar(direction){
     let thisMonth = today.getMonth();
     let currentDate = today.getDate();
 
-    //Call resetCalendar to avoid multiples of days in month
-    resetCalendar();
+    //Call removeChildrenByClassName to avoid multiples of days in month
+    removeChildrenByClassName('rows');
     //Determine whether to go to next or previous month
     if(direction === 'left'){
         if(currentMonth == 0){
@@ -176,15 +208,15 @@ function generateCalendar(direction){
             newCell.style.border = '1px solid black';
             let currentCellDate = String(currentMonth + 1).padStart(2, '0') + "/" + newCell.textContent.padStart(2, '0') + "/" + currentYear;
             let currCellEvents = getEventsByDay(currentCellDate);
-            console.log(currCellEvents.length)
             if(currCellEvents.length !== 0){
                 let newDiv = document.createElement('div');
-                let redDot = document.createElement('span'); 
-                let dayNum = document.createElement('span');
+                let redDot = document.createElement('span');
+                
+                var dayNum = document.createElement('span');
 
                 newDiv.appendChild(redDot);
                 newDiv.appendChild(dayNum);
-
+                redDot.style.fontSize = '20px';
                 redDot.style.color = 'red';
 
                 redDot.textContent = '• ';
@@ -195,19 +227,22 @@ function generateCalendar(direction){
             }
             //Add event listener to every new cell. Will allow user to select specific day to create and view events.
             newCell.addEventListener('click', () => {
+                removeChildrenByClassName('card')
                 deselectDays();
                 newCell.classList.add('selected');
+                newCell.classList.add('modal-trigger');
+                newCell.setAttribute('data-target', 'modal1');
                 //Get all events for this specific cells date
-                selectedDate = String(currentMonth + 1).padStart(2, '0') + "/" + newCell.textContent.padStart(2, '0') + "/" + currentYear;
-                let eventsForToday = getEventsByDay(selectedDate);
+                selectedDate = String(currentMonth + 1).padStart(2, '0') + "/" + String(j - 1).padStart(2, '0') + "/" + currentYear;
 
                 /**********************************************************TODO***********************************************************************/
                 /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
-                if(eventsForToday.length == 0){
+                if(currCellEvents.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
-                    for(let i = 0; i < eventsForToday.length; i++){
-                        console.log("Event " + (i + 1) + ": " + eventsForToday[i].description);
+                    for(let i = 0; i < currCellEvents.length; i++){
+                        let eventModal = document.getElementById('event-modal');
+                        eventModal.appendChild(getEventCard(currCellEvents[i]));
                     }
                 }
             });
@@ -224,6 +259,32 @@ function generateCalendar(direction){
     }
 }
 
+//Create & style event card for each daily event
+function getEventCard(event){
+    let card = document.createElement('div');    
+    eventName = document.createElement('span')
+    eventDescription = document.createElement('p'),
+    eventDate = document.createElement('p'),
+    eventLocation = document.createElement('p'),
+    eventTime = document.createElement('p');
+
+    eventName.textContent = event.name;
+    eventDescription.textContent = event.description;
+    eventDate.textContent = event.date;
+    eventLocation.textContent = event.location;
+    eventTime.textContent = event.startTime + "-" + event.endTime;
+
+    card.appendChild(eventName);
+    card.appendChild(eventDescription);
+    card.appendChild(eventDate);
+    card.appendChild(eventLocation);
+    card.appendChild(eventTime);
+
+    eventName.classList.add('card-title')
+    card.classList.add('card', 'blue-grey', 'card-content');
+    return card;
+}
+
 //Remove 'selected' class from all calendar days each time a day is selected, so that only one may be selected at a time
 function deselectDays(){
     let childDays = calendarTable.children;
@@ -238,12 +299,21 @@ function deselectDays(){
 
 //Testing for adding new events to calendar
 function newEvent(){
+    const txtEventName = document.getElementById('txt-event-name'),
+    txtEventDescription = document.getElementById('txt-event-description'),
+    txtStartTime = document.getElementById('txt-start-time'),
+    txtEndTime = document.getElementById('txt-end-time');
+    txtLocation = document.getElementById('txt-event-location');
     let eventsList = [];
     //Create oject with event details. More properties can be added as needed.
     const eventObj = {
         date: selectedDate,
-        time: 'TBD',
-        description: eventInput.value
+        name: txtEventName.value,
+        startTime: (txtStartTime.value != "") ? txtStartTime.value : 'N/A',
+        endTime: (txtEndTime.value != "") ? txtEndTime.value : 'N/A',
+        description: (txtEventDescription.value != "") ? txtEventDescription.value : 'N/A',
+        location: (txtLocation.value != "") ? txtLocation.value : 'N/A',
+
     }  
     let currentEvents = localStorage.getItem('events');
     if(currentEvents == null){
@@ -274,5 +344,75 @@ function getEventsByDay(date){
     }
     return todaysEvents;
 }
+
+
+
+//Function to append event cards to event list
+function getEventCards(data){
+    let modalEventTitle = document.getElementById('event-title'),
+    modalEventType = document.getElementById('type'),
+    modalEventTime = document.getElementById('time'),
+    modalEventVenue = document.getElementById('venue'),
+    btnAddToCalendar = document.getElementById('add-event-to-calendar'),
+    btnViewSite = document.getElementById('btn-url');
+
+    let eventCard = document.createElement("div");
+    let eventTitle = document.createElement("div");
+    let eventType = document.createElement("div");
+    let eventTime = document.createElement("div");
+    let eventVenue = document.createElement("div");
+    let eventURL = data.url;
+
+    eventTitle.textContent = data.title;
+    eventType.textContent = data.type;
+    eventTime.textContent = data.datetime_local;
+    eventVenue.textContent = data.venue.name;
+
+    eventCard.appendChild(eventTitle);
+    eventCard.appendChild(eventType);
+    eventCard.appendChild(eventTime);
+    eventCard.appendChild(eventVenue);
+
+   
+    eventCard.classList.add("card", "modal-trigger");
+    eventCard.addEventListener('click', () => {
+        btnViewSite.setAttribute("href", eventURL);
+        modalEventTitle.textContent = "Event Name: " + eventTitle.textContent;
+        modalEventType.textContent = "Event Type: " + eventType.textContent;
+        modalEventTime.textContent = "Time: " + eventTime.textContent;
+        modalEventVenue.textContent = "Venue: " + eventVenue.textContent;
+        
+        btnAddToCalendar.addEventListener('click', () => {
+            selectedDate = formatDateTime(eventTime.textContent);
+            let txtEventName = document.getElementById('txt-event-name'),
+            txtEventDescription = document.getElementById('txt-event-description'),
+            txtStartTime = document.getElementById('txt-start-time'),
+            txtEndTime = document.getElementById('txt-end-time');
+            txtLocation = document.getElementById('txt-event-location');
+
+            txtEventName.value = eventTitle.textContent;
+            txtEventDescription.value = eventType.textContent;
+            txtStartTime.value = eventTime.textContent;
+            txtLocation.value = eventVenue.textContent;
+        });
+    });
+
+    
+    eventCard.setAttribute("data-target", "modal4");
+    eventCard.style.cursor = "pointer"
+    eventList.appendChild(eventCard);
+};
+
+function formatDateTime(dateTime){
+    let splitDate = dateTime.split('-');
+    let dd = splitDate[2].substring(0,2);
+
+    let yyyy = splitDate[0];
+    let mm = splitDate[1];
+
+    let formattedDate = mm + "/" + dd + "/" + yyyy;
+    return formattedDate;
+}
+
 
 setDate();
