@@ -157,9 +157,6 @@ btnGenerateRandom.addEventListener('click', () => {
     getBored();
 });
 
-
-
-
 //Initialization of current month and year
 let currentMonth = 0;
 let currentYear = 0;
@@ -403,8 +400,8 @@ function fillDailyModal(currCellEvents){
                 fillDailyModal(currCellEvents);
                 generateCalendar();
             });
-        })
-    }
+        });
+    };
 }
 
 
@@ -642,7 +639,6 @@ function getEventCards(data){
     //add card to event list
     eventList.appendChild(eventCard);
 };
-
 
 //Only non-nested function call.
 setDate();
