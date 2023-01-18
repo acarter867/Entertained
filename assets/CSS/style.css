@@ -9,6 +9,10 @@ h1 {
     align-content: center;
 }
 
+.hidden{
+    display: none;
+}
+
 .modal-header{
     display: flex;
     flex-direction: row;
@@ -28,6 +32,18 @@ h1 {
 
 .card{
     padding: 10px;
+}
+
+.edit-event:hover,
+.delete-event:hover{
+    cursor: pointer;
+    color: aquamarine;
+}
+
+.edit-delete{
+    position: absolute;
+    bottom: 0%;
+    right: 2%;
 }
 
 .modal-title{

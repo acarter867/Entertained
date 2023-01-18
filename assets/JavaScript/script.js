@@ -15,14 +15,18 @@ btnNewEvent = document.getElementById('btn-create-new-event'),
 eventInput = document.getElementById('txt-new-event'),
 btnCitySearch = document.getElementById('city-search'),
 txtCitySearch = document.getElementById('txt-search'),
-btnSubmitEvent = document.getElementById('btn-new-event');
+btnSubmitEvent = document.getElementById('btn-new-event'),
+btnConfirmEdit = document.getElementById('btn-confirm-edit'),
 eventList = document.getElementById('event-list'),
 btnGenerateRandom = document.getElementById('random-activity'),
 txtEventName = document.getElementById('txt-event-name'),
 txtEventDescription = document.getElementById('txt-event-description'),
 txtStartTime = document.getElementById('txt-start-time'),
-txtEndTime = document.getElementById('txt-end-time');
-txtLocation = document.getElementById('txt-event-location');
+txtEndTime = document.getElementById('txt-end-time'),
+txtLocation = document.getElementById('txt-event-location'),
+btnConfirmDelete = document.getElementById('btn-confirm-delete'),
+btnCancelDelete = document.getElementById('btn-cancel-delete'),
+modalConfirm = document.getElementById('modal-confirm');
 
 function resetEventInput(){
     txtEventName.value = "";
@@ -39,12 +43,17 @@ document.addEventListener('DOMContentLoaded', function(){
     var instances = M.Modal.init(modalEls);
 
     btnSubmitEvent.addEventListener('click', () => {
+        btnSubmitEvent.textContent = "Create Event!"
         if(document.getElementById('txt-event-name').value == ""){
             btnSubmitEvent.classList.remove('modal-close')
             console.log("Error, name field is empty")
         }else{
             btnSubmitEvent.classList.add('modal-close');
             newEvent();
+            let currentCellDate = String(currentMonth + 1).padStart(2, '0') + "/" + selectedDate.substring(3,5) + "/" + currentYear;
+            let currCellEvents = getEventsByDay(currentCellDate);
+            fillDailyModal(currCellEvents);
+            resetEventInput();
         }
     })
 })
@@ -52,11 +61,9 @@ document.addEventListener('DOMContentLoaded', function(){
 //Currently selected calendar day
 let selectedDate = '';
 
-btnNewEvent.addEventListener('click', resetEventInput);
 function getCityCoords(city){
     let APIKey = '22c381336de0f996a4083c7ecafd3174';
     let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
-
     fetch(queryCity)
     .then(result => { 
         console.log(result.status)
@@ -89,9 +96,6 @@ btnCitySearch.addEventListener('click', () => {
     txtCitySearch.textContent = "";
 });
 
-
-
-
 //Function to call bored API
 function getBored(){
     try{
@@ -102,6 +106,7 @@ function getBored(){
             return result.json();
         })
         .then(data => {
+            resetEventInput();
             let txtEventName = document.getElementById('txt-event-name'),
             txtEventDescription = document.getElementById('txt-event-description');
             txtEventName.value = "Activity: " + data.activity;
@@ -246,17 +251,12 @@ function generateCalendar(direction){
                 newCell.classList.add('modal-trigger');
                 newCell.setAttribute('data-target', 'modal1');
                 //Get all events for this specific cells date
-                selectedDate = String(currentMonth + 1).padStart(2, '0') + "/" + String(j - 1).padStart(2, '0') + "/" + currentYear;
-
-                /**********************************************************TODO***********************************************************************/
-                /**********************************************************Replace console logs with Modals for viewing days & their events***********************************************************************/
+                selectedDate = currentCellDate;
+                
                 if(currCellEvents.length == 0){
                     console.log("No Events Scheduled for Today!")
                 }else{
-                    for(let i = 0; i < currCellEvents.length; i++){
-                        let eventModal = document.getElementById('event-modal');
-                        eventModal.appendChild(getEventCard(currCellEvents[i]));
-                    }
+                    fillDailyModal(currCellEvents);
                 }
             });
 
@@ -272,14 +272,130 @@ function generateCalendar(direction){
     }
 }
 
+
+function fillDailyModal(currCellEvents){
+    removeChildrenByClassName('card');
+    for(let i = 0; i < currCellEvents.length; i++){
+        let eventModal = document.getElementById('event-modal');
+        let cardToAppend = getDailyEventCard(currCellEvents[i], i + 1);
+        cardToAppend.setAttribute('id', 'card-' + (i + 1));
+        eventModal.appendChild(cardToAppend);
+
+        targetDelete = document.getElementById('delete-' + String(i + 1))
+    
+        let currentDelete = document.getElementById('delete-' + String(i + 1));
+        let currentEdit = document.getElementById('edit-' + String(i + 1))
+        let currentCard = document.getElementById('card-' + String(i+1))
+
+        currentEdit.addEventListener('click', () => {
+            btnConfirmEdit.classList.remove('hidden');
+            btnSubmitEvent.classList.add('hidden');
+
+            let formattedStartTime = getStartTime(currentCard.children[4].textContent);
+            let formattedEndTime = getEndTime(currentCard.children[4].textContent);
+            eventToEditOBJ = {
+                    date: currentCard.children[2].textContent,
+                    name: currentCard.children[0].textContent,
+                    startTime: formattedStartTime,
+                    endTime: formattedEndTime,
+                    description: currentCard.children[1].textContent,
+                    location: currentCard.children[3].textContent,
+            }
+
+            //date: currentCard.children[2].textContent,
+            txtEventName.value = currentCard.children[0].textContent,
+            txtStartTime.value = formattedStartTime,
+            txtEndTime.value = formattedEndTime,
+            txtEventDescription.value = currentCard.children[1].textContent,
+            txtLocation.value = currentCard.children[3].textContent;
+
+            btnConfirmEdit.addEventListener('click', () => {
+                editEvent(eventToEditOBJ);
+                let currCellEvents = getEventsByDay(selectedDate);
+                fillDailyModal(currCellEvents)
+                generateCalendar();
+
+                btnConfirmEdit.classList.add('hidden');
+                btnSubmitEvent.classList.remove('hidden');
+
+                resetEventInput();
+            })
+                
+        })
+
+        currentDelete.addEventListener('click', () => {
+            removeChildrenByClassName('deletion-option')
+            btnModalYes = document.createElement('button'),
+            btnModalNo = document.createElement('button');
+        
+            btnModalYes.textContent = 'Yes';
+            btnModalNo.textContent = 'No';
+        
+            btnModalYes.setAttribute('id', 'btn-confirm-');
+            btnModalNo.setAttribute('id', 'btn-cancel');
+        
+            btnModalYes.classList.add('modal-close', 'btn', 'deletion-option');
+            btnModalNo.classList.add('modal-close', 'btn', 'deletion-option');
+        
+            modalConfirm.appendChild(btnModalYes);
+            modalConfirm.appendChild(btnModalNo);
+
+            btnModalYes.addEventListener('click', () => {
+                let formattedStartTime = getStartTime(currentCard.children[4].textContent);
+                let formattedEndTime = getEndTime(currentCard.children[4].textContent);
+                currentEventOBJ = {
+                    date: currentCard.children[2].textContent,
+                    name: currentCard.children[0].textContent,
+                    startTime: formattedStartTime,
+                    endTime: formattedEndTime,
+                    description: currentCard.children[1].textContent,
+                    location: currentCard.children[3].textContent,
+                }
+                deleteEvent(currentEventOBJ);
+                let currCellEvents = getEventsByDay(selectedDate);
+                fillDailyModal(currCellEvents)
+                generateCalendar();
+            });
+        })
+    }
+}
+
+
 //Create & style event card for each daily event
-function getEventCard(event){
+function getDailyEventCard(event, index){
+
     let card = document.createElement('div');    
-    eventName = document.createElement('span')
+    eventName = document.createElement('span'),
     eventDescription = document.createElement('p'),
     eventDate = document.createElement('p'),
     eventLocation = document.createElement('p'),
-    eventTime = document.createElement('p');
+    eventTime = document.createElement('p'),
+
+
+
+    eventName.setAttribute('id', 'event-name');
+    eventDescription.setAttribute('id', 'event-description');
+    eventDate.setAttribute('id', 'event-date');
+    eventLocation.setAttribute('id', 'event-location');
+    eventTime.setAttribute('id', 'event-time');
+
+    
+    btnEditEvent = document.createElement('span'),
+    btnDeleteEvent = document.createElement('span'),
+    editDelete = document.createElement('div');
+
+    btnEditEvent.setAttribute('data-target', 'modal2');
+    btnEditEvent.classList.add('edit-event', 'modal-trigger');
+    btnDeleteEvent.classList.add('delete-event', 'modal-trigger');
+    btnDeleteEvent.setAttribute('data-target', 'modal6')
+    editDelete.setAttribute('class', 'edit-delete')
+    btnEditEvent.textContent = "Edit/";
+    btnEditEvent.setAttribute('id', 'edit-' + index)
+    btnDeleteEvent.textContent = "Delete";
+    btnDeleteEvent.setAttribute('id', 'delete-' + index)
+
+    editDelete.appendChild(btnEditEvent);
+    editDelete.appendChild(btnDeleteEvent);
 
     eventName.textContent = event.name;
     eventDescription.textContent = event.description;
@@ -292,11 +408,77 @@ function getEventCard(event){
     card.appendChild(eventDate);
     card.appendChild(eventLocation);
     card.appendChild(eventTime);
+    card.appendChild(editDelete);
 
-    eventName.classList.add('card-title')
-    card.classList.add('card', 'blue-grey', 'card-content');
+    eventName.classList.add('card-title');
+    card.classList.add('card', 'blue-grey', 'card-content', 'daily-card');
     return card;
 }
+
+function deleteEvent(eventToDelete){
+    let todaysEventList = JSON.parse(localStorage.getItem('events'));
+    for(let i = 0; i < todaysEventList.length; i++){
+        if(JSON.stringify(eventToDelete) == JSON.stringify(todaysEventList[i])){
+            console.log("MATCH FOUND: " + todaysEventList[i]);
+            console.log("current event: " + eventToDelete);
+            let updatedEvents = removeElementFromArray(todaysEventList, i);
+            localStorage.setItem('events', JSON.stringify(updatedEvents));
+            return;
+        }
+    }
+}
+
+function editEvent(eventToEdit){
+    let todaysEventList = JSON.parse(localStorage.getItem('events'));
+    for(let i = 0; i < todaysEventList.length; i++){
+        if(JSON.stringify(eventToEdit) == JSON.stringify(todaysEventList[i])){
+            console.log("MATCH FOUND: " + todaysEventList[i]);
+            console.log("current event: " + eventToEdit);
+
+            todaysEventList[i].date = selectedDate,
+            todaysEventList[i].name = txtEventName.value,
+            todaysEventList[i].startTime = txtStartTime.value,
+            todaysEventList[i].endTime = txtEndTime.value,
+            todaysEventList[i].description = txtEventDescription.value,
+            todaysEventList[i].location = txtLocation.value;
+
+            localStorage.setItem('events', JSON.stringify(todaysEventList));
+            return;
+        }
+    }
+}
+
+
+function removeElementFromArray(originalArray, indexToDelete){
+    let updatedArray = [];
+    for(let i = 0; i < originalArray.length; i++){
+        if(i == indexToDelete){
+            continue;
+        }else{
+            updatedArray.push(originalArray[i]);
+        }
+    }
+    return updatedArray;
+}
+
+function getStartTime(timeData){
+    let brokenTime = timeData.split('-');
+    if(brokenTime.length > 2){
+        return brokenTime[0] + '-' + brokenTime[1] + '-' + brokenTime[2];
+    }else{
+        return brokenTime[0];
+    }
+}  
+function getEndTime(timeData){
+    let brokenTime = timeData.split('-');
+    if(brokenTime.length > 2){
+        return brokenTime[3];
+    }else{
+        return brokenTime[1];
+    }
+}
+
+
 
 //Remove 'selected' class from all calendar days each time a day is selected, so that only one may be selected at a time
 function deselectDays(){
@@ -321,8 +503,7 @@ function newEvent(){
         endTime: (txtEndTime.value != "") ? txtEndTime.value : 'N/A',
         description: (txtEventDescription.value != "") ? txtEventDescription.value : 'N/A',
         location: (txtLocation.value != "") ? txtLocation.value : 'N/A',
-
-    }  
+    }
     let currentEvents = localStorage.getItem('events');
     if(currentEvents == null){
         let firstEvent = [eventObj]
@@ -398,10 +579,8 @@ function getEventCards(data){
             txtLocation.value = eventVenue.textContent;
         });
     });
-
-    
     eventCard.setAttribute("data-target", "modal4");
-    eventCard.style.cursor = "pointer"
+    eventCard.style.cursor = "pointer";
     eventList.appendChild(eventCard);
 };
 

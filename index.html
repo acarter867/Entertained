@@ -112,11 +112,10 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button id="btn-new-event" class="btn modal-close waves-effect waves-green btn-flat centered">Create Event!</button>
+              <button id="btn-new-event" class="btn modal-close waves-effect waves-green">Create Event!</button>
+              <button id="btn-confirm-edit" class="hidden btn modal-close waves-effect waves-green">Save Changes!</button>
             </div>
           </div>
-
-
         </div>
       </div>
       <div class="events col l3">
@@ -141,6 +140,12 @@
          <input type="text" placeholder="Search For a City" id="txt-search">
          <button class="btn-city-search" id="city-search">Search</button>
          <div id="event-list"></div>
+        </div>
+      </div>
+
+      <div id="modal6" class="modal">
+        <div id="modal-confirm" class="modal-content blue-grey">
+          <h4>ARE YOU SURE YOU WANT TO DELETE THIS EVENT?</h4>
         </div>
       </div>
     </div>
