@@ -1,10 +1,6 @@
 # Entertained
 Bored? Check this out!
 
-## Project Name: 
-Entertained
-
-
 ## Description:
 Application to help users find and plan fun activities based on several variable paramaters 
 
