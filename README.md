@@ -14,7 +14,7 @@ AS A Bored individual
 I WANT a web application to find and create fun events 
 SO THAT I am no longer bored
 
-## Prewview of project
+## Preview of project
 ![acarter867 github io_Entertained_](https://user-images.githubusercontent.com/118003612/213340134-bde02a31-e398-44bb-9135-a0c9fd2d40ab.png)
 
 
