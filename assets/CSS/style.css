@@ -1,22 +1,113 @@
+/**************************************** Default element styling ****************************************/
 body{
     background-color: rgb(216, 238, 243);
     font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+nav {
+    background-color:  rgb(44, 47, 47);
+    padding-right: 40px;
+}
+
+h1 {
+    line-height: 10px;
+    color:  rgb(44, 47, 47);
+    padding-bottom: 20px;
+}
+
+td{
+    text-align: center;
+    height: 5vw;
+}
+
+th{
+    font-size: 3vw;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 15px;
+    min-width: 8vw;
+    max-width: 150px!important;
+}
+
+table {
+    border-collapse: collapse;
+    width: 20vw;
+    height: 200px;
+}
+
+button {
+    background-color: rgb(30, 170, 163);
+    color: white;
+    border-radius: 2px;
+    padding: 5px 10px 5px 10px;
+    border: 0;
+    box-shadow: 1px 1px 2px rgb(150, 149, 149);
+}
+
+/**************************************** Calendar styling ****************************************/
+.month{
+    display: flex;
+    justify-content: center;
+}
+
+.arrow{
+    padding: 0px 15px 0px 15px;
+    color:rgb(44, 47, 47);
+}
+
+.arrow:hover {
+    transform: translate3d(0, -2px, 0);
+    color:rgb(30, 170, 163);
+    cursor: pointer;
+}
+
+.days{
+    display: flex;
+    justify-content: center;
+    color:  rgb(44, 47, 47);
+}
+
+#calendar-table{
+    border: 2px solid rgb(44, 47, 47);
+    background-color:whitesmoke;
+}
+
+.has-date:hover{
+    background-color: rgb(192, 192, 192);
+    cursor: pointer;
+}
+
+.todays-date{
+    background-color: rgb(240, 216, 98);
+}
+
+.calendar {
+    transform: translateX(-7%);
+}
+
+.selected{
+    background-color: rgb(30, 170, 163);
+}
+
+.no-border{
+    border: none;
+}
+
+/**************************************** Modal styling ****************************************/
+.modal-4{
+    max-width: 500px;
+}
+
+.modal-overlay {
+    height: 500%;
+    width: 500%;
+    left: -500px;
 }
 
 .delete-event:hover,
 .edit-event:hover {
     color: rgb(111, 208, 176);
     cursor: pointer;
-}
-
-.modal-4{
-    max-width: 500px;
-}
-
-.edit-delete {
-    position: absolute;
-    right: 1%;
-    bottom: 2%;
 }
 
 .hidden {
@@ -39,32 +130,22 @@ body{
     display: none;
 }
 
-nav {
-    background-color:  rgb(44, 47, 47);
-    padding-right: 40px;
-}
-
-h1 {
-    line-height: 10px;
-    color:  rgb(44, 47, 47);
-    padding-bottom: 20px;
-}
-
-.arrow{
-    padding: 0px 15px 0px 15px;
-    color:rgb(44, 47, 47);
-}
-
-.arrow:hover {
-    transform: translate3d(0, -2px, 0);
-    color:rgb(30, 170, 163)
-}
-
 .modal-header{
     background-color: whitesmoke;
     color: rgb(44, 47, 47);
     align-items: center;
     height: 200px;
+}
+
+.modal-title{
+    margin: 0%;
+    font-size: 2vw;
+    padding-top: 75px;
+    padding-left: 50px;
+}
+
+.card{
+    padding: 10px;
 }
 
 .fixed-action-button{
@@ -75,101 +156,14 @@ h1 {
     text-align: center;
 }
 
-.month{
-    display: flex;
-    justify-content: center;
-}
-
-.days{
-    display: flex;
-    justify-content: center;
-    color:  rgb(44, 47, 47);
-}
-
-.card{
-    padding: 10px;
-}
-
-.modal-title{
-    margin: 0%;
-    font-size: 2vw;
-    padding-top: 75px;
-    padding-left: 50px;
-}
-
-#calendar-table{
-    border: 2px solid rgb(44, 47, 47);
-    background-color:whitesmoke;
-}
-
-td{
-    text-align: center;
-    height: 5vw;
-}
-
-.has-date:hover{
-    background-color: rgb(192, 192, 192);
-    cursor: pointer;
-}
-
-.todays-date{
-    background-color: rgb(240, 216, 98);
-}
-
-th{
-    font-size: 3vw;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 15px;
-    min-width: 9vw;
-    max-width: 150px!important;
-}
-
-table {
-    border-collapse: collapse;
-    width: 20vw;
-    height: 200px;
-}
-
 .about-modal li{
     list-style-type: circle !important;
     font-size: 16px!important;
 }
 
-.selected{
-    background-color: rgb(30, 170, 163);
-}
-
-.no-border{
-    border: none;
-}
-
-.arrow:hover{
-    cursor: pointer;
-}
-
 .search-title {
     color:  rgb(44, 47, 47);
     font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-button {
-    background-color: rgb(30, 170, 163);
-    color: white;
-    border-radius: 2px;
-    padding: 5px 10px 5px 10px;
-    border: 0;
-    box-shadow: 1px 1px 2px rgb(150, 149, 149);
-}
-
-.modal-overlay {
-    height: 500%;
-    width: 500%;
-    left: -500px;
-}
-
-.calendar {
-    transform: translateX(-7%);
 }
 
 /* Media queries for screen responsiveness */
