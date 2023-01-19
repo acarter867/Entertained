@@ -357,8 +357,6 @@ function fillDailyModal(currCellEvents){
 
                 btnConfirmEdit.classList.add('hidden');
                 btnSubmitEvent.classList.remove('hidden');
-
-                resetEventInput();
             })
                 
         })
