@@ -3,6 +3,22 @@ body{
     font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.delete-event:hover,
+.edit-event:hover{
+    color: rgb(111, 208, 176);
+    cursor: pointer;
+}
+
+.edit-delete{
+    position: absolute;
+    right: 1%;
+    bottom: 2%;
+}
+
+.hidden{
+    display: none;
+}
+
 nav {
     background-color:  rgb(44, 47, 47);
     padding-right: 40px;
