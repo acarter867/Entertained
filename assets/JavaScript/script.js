@@ -1,4 +1,3 @@
-
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
 //Open weather map api '22c381336de0f996a4083c7ecafd3174';
 
@@ -40,6 +39,8 @@ function resetEventInput(){
     txtEndTime.value = "";
     txtLocation.value = "";
 }
+
+btnNewEvent.addEventListener('click', resetEventInput)
 
 //Boilerplate function to reset elements with 'card' class name and avoid duplicates
 function removeChildrenByClassName(className){
