@@ -266,6 +266,7 @@ function generateCalendar(direction){
                 newDiv.appendChild(dayNum);
                 redDot.style.fontSize = '20px';
                 redDot.style.color = 'red';
+                redDot.classList.add('red-dot')
 
                 redDot.textContent = '• ';
                 dayNum.textContent = j;
@@ -362,9 +363,8 @@ function fillDailyModal(currCellEvents){
 
                 btnConfirmEdit.classList.add('hidden');
                 btnSubmitEvent.classList.remove('hidden');
-            })
-                
-        })
+            });                
+        });
         //Delete Events:
         /**Create new confirmation buttons each time to avoid adding multiple event listeners to same button**/
         currentDelete.addEventListener('click', () => {

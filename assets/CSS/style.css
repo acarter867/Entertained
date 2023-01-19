@@ -3,6 +3,12 @@ body{
     font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.modal-content li{
+    list-style-type: circle!important;
+    font-size: 1vw;
+    margin-left: 10px;
+}
+
 .delete-event:hover,
 .edit-event:hover {
     color: rgb(111, 208, 176);
@@ -13,6 +19,15 @@ body{
     position: absolute;
     right: 1%;
     bottom: 2%;
+}
+
+nav ul a{
+    transition: background-color .3s;
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    padding: 0 1.5vw;
+    cursor: pointer;
 }
 
 .hidden {
@@ -37,7 +52,7 @@ body{
 
 nav {
     background-color:  rgb(44, 47, 47);
-    padding-right: 40px;
+    padding-right: 25px;
 }
 
 h1 {
@@ -117,6 +132,7 @@ th{
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     padding: 15px;
+    min-width: 8vw;
 }
 
 table {
@@ -157,6 +173,11 @@ button {
     left: -500px;
 }
 
+.searched-events-modal{
+    width: 50%;
+    min-width: 310px;
+}
+
 .calendar {
     transform: translateX(-7%);
 }
@@ -165,15 +186,74 @@ button {
 
 @media screen and (max-width: 600px) {
     .events {
-        transform: translateX(15%);
     }
 
     h1 {
         font-size: 30px;
     }
 
+    nav{
+        width: 100%;
+    }
+
+    .modal-overlay{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        top: -100;
+        height: 300vh;
+        transform: translateX(445px);
+    }
+
+    .modal-title{
+        position: absolute;
+        font-size: 20px!important;
+        left: -13vw;
+        top: -50px;
+    }
+
+    .month{
+        margin-left: auto;
+    }
+
+    td{
+        padding: 2px;
+    }
+    th{
+        padding: 11px;
+    }
+
+    .red-dot{
+        font-size: 15px!important;
+    }
+    
+
+    .card div{
+        padding-top: 3%;
+    }
+
+    .modal,
+    .modal-content{
+        font-size: 4vw;
+        width: 75vw;
+        min-width: 250px;
+        padding-top: 0px;
+        padding: 5px!important;
+    }
+
+    .modal-content li{
+        font-size: 2vw;
+    }
+
+    .modal-4,
+    .about-modal{
+        transform: translateX(-9%)!important;
+    }
+
+    
+
     .modal-header {
-        height: 150px;
+        height: 100px;
     }
 }
 
@@ -181,6 +261,8 @@ button {
     .modal-title {
         font-size: 4vw;
     }
+
+    
 }
 
 @media screen and (min-width: 2000px){
