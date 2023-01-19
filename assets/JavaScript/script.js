@@ -1,7 +1,3 @@
-// API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
-//Open weather map api '22c381336de0f996a4083c7ecafd3174';
-
-
 //DOM element variables
 const leftArrow = document.getElementById('left-arrow'),
 rightArrow = document.getElementById('right-arrow'),
@@ -93,8 +89,7 @@ document.addEventListener('DOMContentLoaded', function(){
 /*      Take city from search input => pass into OpenWeatherMap (OWM) API for city coords => 
         pass latitude and longitude data from OWM API response into SeatGeek API call for event list by city =>  Generate and display card for each event through getEventCards() */
 function getCityCoords(city){
-    let APIKey = '22c381336de0f996a4083c7ecafd3174';
-    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
+    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=22c381336de0f996a4083c7ecafd3174';
      //Query city for coordinates from OpenWeatherMap
     fetch(queryCity)
     .then(result => { 

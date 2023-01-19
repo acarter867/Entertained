@@ -187,8 +187,4 @@ button {
     .calendar {
         transform: translateX(-30%);
     }
-
-    .events {
-        transform: translateX(100%);
-    }
 }
