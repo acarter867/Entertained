@@ -8,7 +8,7 @@ Application to help users find and plan fun activities based on several variable
 This application is for users who wish to plan, save, edit, and search for activities on a calendar.
 
 ## Credits:
-Credits for development go to Alex Barett, Ben Rashleigh, Lorena Huff, Alec Carter, Conner Williams, and Lorena Huff
+Credits for development go to Alex Barett, Ben Rashleigh, Lorena Huff, Conner Williams, and Alec Carter.
 
 ## License: 
 N/A
