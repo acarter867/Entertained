@@ -40,6 +40,8 @@ function resetEventInput(){
     txtLocation.value = "";
 }
 
+btnNewEvent.addEventListener('click', resetEventInput)
+
 //Boilerplate function to reset elements with 'card' class name and avoid duplicates
 function removeChildrenByClassName(className){
     const toDelete = document.getElementsByClassName(className);
