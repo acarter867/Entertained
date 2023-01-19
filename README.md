@@ -28,7 +28,7 @@ SO THAT I am no longer bored
 ## API'S: 
 Bored API
 SeatGeek API
-
+OpenWeatherMap Geolocation API
 
 
 ## *Rough* Breakdown of tasks:
