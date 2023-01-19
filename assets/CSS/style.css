@@ -9,6 +9,10 @@ body{
     cursor: pointer;
 }
 
+.modal-4{
+    max-width: 500px;
+}
+
 .edit-delete {
     position: absolute;
     right: 1%;
@@ -117,12 +121,19 @@ th{
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     padding: 15px;
+    min-width: 9vw;
+    max-width: 150px!important;
 }
 
 table {
     border-collapse: collapse;
     width: 20vw;
     height: 200px;
+}
+
+.about-modal li{
+    list-style-type: circle !important;
+    font-size: 16px!important;
 }
 
 .selected{
@@ -134,7 +145,7 @@ table {
 }
 
 .arrow:hover{
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .search-title {

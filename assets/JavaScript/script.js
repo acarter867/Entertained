@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', function(){
 /*      Take city from search input => pass into OpenWeatherMap (OWM) API for city coords => 
         pass latitude and longitude data from OWM API response into SeatGeek API call for event list by city =>  Generate and display card for each event through getEventCards() */
 function getCityCoords(city){
-    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=22c381336de0f996a4083c7ecafd3174';
+    let APIKey = '22c381336de0f996a4083c7ecafd3174';
+    let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
      //Query city for coordinates from OpenWeatherMap
     fetch(queryCity)
     .then(result => { 
