@@ -1,4 +1,3 @@
-
 // API KEY MzEzNjU0MzZ8MTY3Mjk2NjkyNi4xMTAzMDM
 //Open weather map api '22c381336de0f996a4083c7ecafd3174';
 
@@ -12,8 +11,24 @@ btnNewEvent = document.getElementById('btn-create-new-event'),
 eventInput = document.getElementById('txt-new-event'),
 btnCitySearch = document.getElementById('city-search'),
 txtCitySearch = document.getElementById('txt-search'),
-btnSubmitEvent = document.getElementById('btn-new-event');
-eventList = document.getElementById('event-list');
+btnSubmitEvent = document.getElementById('btn-new-event'),
+btnConfirmEdit = document.getElementById('btn-confirm-edit'),
+eventList = document.getElementById('event-list'),
+btnGenerateRandom = document.getElementById('random-activity'),
+txtEventName = document.getElementById('txt-event-name'),
+txtEventDescription = document.getElementById('txt-event-description'),
+txtStartTime = document.getElementById('txt-start-time'),
+txtEndTime = document.getElementById('txt-end-time'),
+txtLocation = document.getElementById('txt-event-location'),
+btnConfirmDelete = document.getElementById('btn-confirm-delete'),
+btnCancelDelete = document.getElementById('btn-cancel-delete'),
+modalConfirm = document.getElementById('modal-confirm');
+
+//Array of months for getMonth() indexing
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+//Currently selected calendar day
+let selectedDate = '';
 
 
 //Reset event input fields
@@ -73,11 +88,8 @@ document.addEventListener('DOMContentLoaded', function(){
     })
 })
 
-//Currently selected calendar day
-let selectedDate = '';
-
-//btnNewEvent.addEventListener('click', newEvent);
-
+/*      Take city from search input => pass into OpenWeatherMap (OWM) API for city coords => 
+        pass latitude and longitude data from OWM API response into SeatGeek API call for event list by city =>  Generate and display card for each event through getEventCards() */
 function getCityCoords(city){
     let APIKey = '22c381336de0f996a4083c7ecafd3174';
     let queryCity = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + APIKey;
@@ -115,18 +127,23 @@ btnCitySearch.addEventListener('click', () => {
     txtCitySearch.textContent = "";
 });
 
-
 //Function to call bored API
 function getBored(){
     try{
-        let queryString = 'http://www.boredapi.com/api/activity/';
+        let queryString = 'https://www.boredapi.com/api/activity/';
         fetch(queryString)
         .then(result => {
             console.log(result);
             return result.json();
         })
         .then(data => {
-            console.log(data);
+            //Remove previous input text & auto-populate event input fields
+            resetEventInput();
+            let txtEventName = document.getElementById('txt-event-name'),
+            txtEventDescription = document.getElementById('txt-event-description');
+            txtEventName.value = "Activity: " + data.activity;
+            txtEventDescription.value = "Type: " + data.type;
+            
         });
     }catch{
     //TODO: Create Modals to inform user of any errors when attempting API call************************************************************************************************************************************
@@ -134,10 +151,13 @@ function getBored(){
     }
 }
 
-//function to call seatGeek API
+//Call Bored API on button click
+btnGenerateRandom.addEventListener('click', () => {
+    getBored();
+});
 
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 //Initialization of current month and year
 let currentMonth = 0;
@@ -382,8 +402,8 @@ function fillDailyModal(currCellEvents){
                 fillDailyModal(currCellEvents);
                 generateCalendar();
             });
-        });
-    };
+        })
+    }
 }
 
 
@@ -567,21 +587,61 @@ function getEventsByDay(date){
 
 //Function to append event cards to event list
 function getEventCards(data){
-        let eventCard = document.createElement("div");
-        let eventTitle = document.createElement("div");
-        let eventType = document.createElement("div");
-        let eventTime = document.createElement("div");
-        let eventVenue = document.createElement("div");
-        console.log(data)
-        eventTitle.textContent = data.title;
-        eventType.textContent = data.type;
-        eventTime.textContent = data.datetime_local;
-        eventVenue.textContent = data.venue.name;
+    //Declare DOM variables for non-daily event modal
+    let modalEventTitle = document.getElementById('event-title'),
+    modalEventType = document.getElementById('type'),
+    modalEventTime = document.getElementById('time'),
+    modalEventVenue = document.getElementById('venue'),
+    btnAddToCalendar = document.getElementById('add-event-to-calendar'),
+    btnViewSite = document.getElementById('btn-url');
+
+    //Create DOM elements to display on cards & assign textContent to corresponding object properties
+    let eventCard = document.createElement("div"),
+    eventTitle = document.createElement("div"),
+    eventType = document.createElement("div"),
+    eventTime = document.createElement("div"),
+    eventVenue = document.createElement("div"),
+    eventURL = data.url;
+
+    eventTitle.textContent = data.title;
+    eventType.textContent = data.type;
+    eventTime.textContent = data.datetime_local;
+    eventVenue.textContent = data.venue.name;
+
+    //Append elements to card
+    eventCard.appendChild(eventTitle);
+    eventCard.appendChild(eventType);
+    eventCard.appendChild(eventTime);
+    eventCard.appendChild(eventVenue);
+
+    //Set card attributes to open corresponding modal
+    eventCard.classList.add("card", "modal-trigger");
+    eventCard.setAttribute("data-target", "modal4");
+
+    //Set text content for modal on card click
+    eventCard.addEventListener('click', () => {
+        btnViewSite.setAttribute("href", eventURL);
+        modalEventTitle.textContent = "Event Name: " + eventTitle.textContent;
+        modalEventType.textContent = "Event Type: " + eventType.textContent;
+        modalEventTime.textContent = "Time: " + eventTime.textContent;
+        modalEventVenue.textContent = "Venue: " + eventVenue.textContent;
         
-        eventCard.appendChild(eventTitle);
-        eventCard.appendChild(eventType);
-        eventCard.appendChild(eventTime);
-        eventCard.appendChild(eventVenue);
-        eventCard.classList.add("card");
-        eventList.appendChild(eventCard);
+        //Open event creation modal and auto-populate with event data for user to verify and adjust
+        btnAddToCalendar.addEventListener('click', () => {
+            //Change selected date to listed date of the event for automatic & accurate calendar placement
+            selectedDate = formatDateTime(eventTime.textContent);
+            txtEventName.value = eventTitle.textContent;
+            txtEventDescription.value = eventType.textContent;
+            txtStartTime.value = eventTime.textContent;
+            txtLocation.value = eventVenue.textContent;
+        });
+    });
+    
+    eventCard.style.cursor = "pointer";
+    //add card to event list
+    eventList.appendChild(eventCard);
 };
+
+
+//Only non-nested function call.
+setDate();
