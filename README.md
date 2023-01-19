@@ -2,8 +2,19 @@
 Bored? Check this out!
 
 ## Description:
-Application to help users find and plan fun activities based on several variable paramaters 
+Application to help users find and plan fun activities based on several variable paramaters and add them to a calendar! Utilizes Several API's to allow users to search for activities in a givn city, or generate a random one. All activities can be saved, edited, and deleted in the calendar
 
+## Usage:
+This application is for users who wish to plan, save, edit, and search for activities on a calendar.
+
+## Credits:
+Credits for development go to Alex Barett, Ben Rashleigh, Lorena Huff, Alec Carter, Conner Williams, and Lorena Huff
+
+## License: 
+N/A
+
+## Deployed Page:
+https://acarter867.github.io/Entertained/
 
 ## User Story: 
 AS A Bored individual 
