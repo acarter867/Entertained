@@ -1,5 +1,66 @@
+body{
+    background-color: rgb(216, 238, 243);
+    font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.delete-event:hover,
+.edit-event:hover {
+    color: rgb(111, 208, 176);
+    cursor: pointer;
+}
+
+.edit-delete {
+    position: absolute;
+    right: 1%;
+    bottom: 2%;
+}
+
+.hidden {
+    display: none;
+}
+
+.delete-event:hover,
+.edit-event:hover{
+    color: rgb(111, 208, 176);
+    cursor: pointer;
+}
+
+.edit-delete{
+    position: absolute;
+    right: 1%;
+    bottom: 2%;
+}
+
+.hidden{
+    display: none;
+}
+
+nav {
+    background-color:  rgb(44, 47, 47);
+    padding-right: 40px;
+}
+
 h1 {
     line-height: 10px;
+    color:  rgb(44, 47, 47);
+    padding-bottom: 20px;
+}
+
+.arrow{
+    padding: 0px 15px 0px 15px;
+    color:rgb(44, 47, 47);
+}
+
+.arrow:hover {
+    transform: translate3d(0, -2px, 0);
+    color:rgb(30, 170, 163)
+}
+
+.modal-header{
+    background-color: whitesmoke;
+    color: rgb(44, 47, 47);
+    align-items: center;
+    height: 200px;
 }
 
 .fixed-action-button{
@@ -7,12 +68,7 @@ h1 {
     right: 5px;
     top: 1vw;
     align-content: center;
-}
-
-.modal-header{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    text-align: center;
 }
 
 .month{
@@ -23,24 +79,28 @@ h1 {
 .days{
     display: flex;
     justify-content: center;
-    overflow-x: scroll;
+    color:  rgb(44, 47, 47);
 }
 
 .card{
     padding: 10px;
 }
+
 .modal-title{
     margin: 0%;
-    font-size: 5vw;
+    font-size: 2vw;
+    padding-top: 75px;
+    padding-left: 50px;
 }
 
 #calendar-table{
-    border: 2px solid black;
+    border: 2px solid rgb(44, 47, 47);
+    background-color:whitesmoke;
 }
 
 td{
     text-align: center;
-    height: 100px;
+    height: 5vw;
 }
 
 .has-date:hover{
@@ -49,7 +109,7 @@ td{
 }
 
 .todays-date{
-    background-color: rgb(148, 205, 255);
+    background-color: rgb(240, 216, 98);
 }
 
 th{
@@ -57,7 +117,6 @@ th{
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     padding: 15px;
-    min-width: 100px;
 }
 
 table {
@@ -67,17 +126,69 @@ table {
 }
 
 .selected{
-    background-color: blue;
+    background-color: rgb(30, 170, 163);
 }
 
 .no-border{
     border: none;
 }
 
-th:hover{
-    background-color: aqua;
-}
-
 .arrow:hover{
     cursor: pointer;
+}
+
+.search-title {
+    color:  rgb(44, 47, 47);
+    font-family: noto 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+button {
+    background-color: rgb(30, 170, 163);
+    color: white;
+    border-radius: 2px;
+    padding: 5px 10px 5px 10px;
+    border: 0;
+    box-shadow: 1px 1px 2px rgb(150, 149, 149);
+}
+
+.modal-overlay {
+    height: 500%;
+    width: 500%;
+    left: -500px;
+}
+
+.calendar {
+    transform: translateX(-7%);
+}
+
+/* Media queries for screen responsiveness */
+
+@media screen and (max-width: 600px) {
+    .events {
+        transform: translateX(15%);
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .modal-header {
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .modal-title {
+        font-size: 4vw;
+    }
+}
+
+@media screen and (min-width: 2000px){
+    .calendar {
+        transform: translateX(-30%);
+    }
+
+    .events {
+        transform: translateX(100%);
+    }
 }

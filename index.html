@@ -10,15 +10,40 @@
   <body>
     <header>
       <div class="nav-wrapper">
-        <nav>
+        <nav class="blue-grey">
           <ul id="nav-mobile" class="right">
-            <li>trythis</li>
-            <li>andthis</li>
-            <li>alsothis</li>
+            <li><a href="https://github.com/acarter867/Entertained">Visit Github Repo</a></li>
+            <li class="modal-trigger" data-target="modal5"><a href="">About</a></li>
           </ul>
         </nav>
       </div>
     </header>
+
+    <div id="modal5" class="modal">
+      <div class="modal-content">
+        <h2 id="about-header">About</h2>
+        <h3 id="Purpose"></h3>
+        <p id="purpose-description">The purpose of this application is for users to keep track of planned activities, 
+          along with searching for new ones.</p>
+        <h3 id="our-apis"></h3>
+        <ul>
+          <li>We utilize the <a href="https://www.boredapi.com/">Bored API</a>, which generates random activities for users, which 
+          may be added to the calendar at the users discretion.
+          </li>
+
+          <li>We also utilize the <a href="https://platform.seatgeek.com/">SeatGeek API</a> to generate a list of events by location,
+          calculated by longitude & latitude coordinates. 
+          </li>
+
+          <li>Finally, we utilize the <a href="https://openweathermap.org/api/geocoding-api">OpenWeatherMap Geocoding API</a> to retrieve the coordinates of 
+          a city by name. We pass these geographical coordinates into the SeatGeek API to retrieve a list of events in any particular city.
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn modal-close">Got It!</button>
+      </div>
+    </div>
 
     <div class="container">
     <div class="row">
@@ -49,12 +74,14 @@
         <div class="modal" id="modal1">
           <div class="green lighten-3" id="event-modal">
             <div class="modal-header">
-            <p class="modal-title centerred">Todays Events 
+            <p class="modal-title">Todays Events 
               <div class="fixed-action-button">
                 <a class="btn-floating btn-small red">
-                  <i data-target="modal2" class="modal-trigger btn-add-event medium material-icons">+</i>
+                  <i id="btn-create-new-event" data-target="modal2" class="modal-trigger btn-add-event medium material-icons">+</i>
               </a>
-              <p>OR...<button data-target="modal2" id="random-activity" class="btn modal-trigger">Generate Random Activity</button></p>
+              <p>OR...
+                <br />
+                <button data-target="modal2" id="random-activity" class="btn modal-trigger">Random</button></p>
               
             </div></p>
           </div>
@@ -90,11 +117,10 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button id="btn-new-event" class="btn modal-close waves-effect waves-green btn-flat centered">Create Event!</button>
+              <button id="btn-new-event" class="btn modal-close waves-effect waves-green">Create Event!</button>
+              <button id="btn-confirm-edit" class="hidden btn modal-close waves-effect waves-green">Save Changes!</button>
             </div>
           </div>
-
-
         </div>
       </div>
       <div class="events col l3">
@@ -119,6 +145,12 @@
          <input type="text" placeholder="Search For a City" id="txt-search">
          <button class="btn-city-search" id="city-search">Search</button>
          <div id="event-list"></div>
+        </div>
+      </div>
+
+      <div id="modal6" class="modal">
+        <div id="modal-confirm" class="modal-content blue-grey">
+          <h4>ARE YOU SURE YOU WANT TO DELETE THIS EVENT?</h4>
         </div>
       </div>
     </div>
